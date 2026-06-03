@@ -4,22 +4,26 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@RequiredArgsConstructor
 @Entity(name = "Productos")
 public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer Id;
+
+    @Column(unique = true)
     private String nombre;
+
+    @Column(length = 100)
     private String descripcion;
+
     private double precio;
+
     private int stock;
     private String imagen_url;
     private LocalDateTime fecha_creacion;
@@ -29,6 +33,7 @@ public class Producto {
     @PrePersist
     public void prePersist() {
         this.fecha_creacion = LocalDateTime.now();
+        estado = true;
     }
 
     @PreUpdate
